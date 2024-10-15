@@ -1,8 +1,7 @@
 const express = require('express');
 const connectDB = require('./config/db');
 const bookRoutes = require('./routes/bookRoutes');
-// const { useState } = require ('express');
-
+const postRoute = require('./routes/posts');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -16,6 +15,16 @@ app.get("/", (req, res) => {
     res.send("HomePage Of The App");
 });
 
+app.post('/register', (req, res) => {
+    const { username, password } = req.body;
+    // Store this in MongoDB for future reference
+});
+
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+    // Check if this matches what's in MongoDB
+});
+
 // Example route to get books
 app.get('/api/books', async (req, res) => {
     try {
@@ -26,15 +35,8 @@ app.get('/api/books', async (req, res) => {
     }
 });
 
-
-// app.get(
-//     `localhost:3000/api/books${id}`).then(res => 
-//      {
-//      console.log(res.data.books);
-//      setBooks(res.data.books);
-//  })
-
 app.use('/api', bookRoutes); // Use book routes with prefix '/api'
+app.use('/api/posts', postRoute);
 
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
